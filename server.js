@@ -3,7 +3,7 @@ const app = express();
 
 const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
-
+const userRoutes = require('./routes/user');
 
 // app.use((req, res) => {
 //     res.json({
@@ -13,7 +13,7 @@ const ordersRoutes = require('./routes/orders');
 
 app.use('/product', productsRoutes);
 app.use('/order', ordersRoutes);
-
+app.use('/user', userRoutes);
 
 
 
