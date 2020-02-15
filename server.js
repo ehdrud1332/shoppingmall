@@ -1,6 +1,41 @@
-const aaa = require('express');
-const bbb = aaa();
+const express = require('express');
+const app = express();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.use((req, res) => {
+    res.json({
+        msg: "서버시작"
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const port = 2020;
 
-bbb.listen(port, () => console.log("server started"));
+app.listen(port, () => console.log("server started"));
