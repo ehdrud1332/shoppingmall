@@ -1,0 +1,22 @@
+{
+  "name": "shoppingmall",
+  "version": "1.0.0",
+  "description": "shoppingmall",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ehdrud1332/shoppingmall.git"
+  },
+  "keywords": [
+    "Test"
+  ],
+  "author": "Jam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ehdrud1332/shoppingmall/issues"
+  },
+  "homepage": "https://github.com/ehdrud1332/shoppingmall#readme"
+}
