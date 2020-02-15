@@ -9,8 +9,22 @@ router.get('/', (req, res) => {
 });
 // 상품 생성하는 API
 router.post('/', (req, res) => {
+
+
+    const product = {
+        title : req.body.title,
+        desc : req.body.desc,
+        price : req.body.price
+    
+    }
+
+
     res.json({
-        msg : "상품을 생성함"
+        msg : "상품을 생성함",
+        productInfo: product
+
+
+
     });
 });
 
