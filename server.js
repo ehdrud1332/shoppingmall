@@ -2,16 +2,17 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const mongoose = require("mongoose");
 
 const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
 const userRoutes = require('./routes/user');
 
-// app.use((req, res) => {
-//     res.json({
-//         msg: "서버시작"
-//     });
-// });
+
+
+mongoose.connect("mongodb://joke716:k9915402@ds141294.mlab.com:41294/node-rest-shop", { useNewUrlParser: true , useUnifiedTopology:true})
+    .then(() => console.log("mongoDB conneted"))
+    .catch(err => console.log(err.message));
 
 
 app.use(morgan('dev'));
