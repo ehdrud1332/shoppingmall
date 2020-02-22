@@ -61,17 +61,26 @@ router.get('/:productID', (req, res) => {
         .findById(id)
         .exec()
         .then(doc => {
-            res.json({
-                productInfo: {
-                    name : doc.name,
-                    price: doc.price,
-                    id: doc._id,
-                    request: {
-                        type: "GET",
-                        url: "http://localhost:2020/product"
+            if(doc){
+                res.json({
+                    productInfo: {
+                        name : doc.name,
+                        price: doc.price,
+                        id: doc._id,
+                        request: {
+                            type: "GET",
+                            url: "http://localhost:2020/product"
+                        }
                     }
-                }
-            });
+                });
+              
+
+            } else{
+                return res.json({
+                    msg : "productid is not found"
+                });
+            }
+        
         })
         .catch(err => {
             res.json({
