@@ -16,6 +16,7 @@ router.get('/', (req, res) => {
         .exec()
         .then(docs => {
             res.json({
+                count: docs.length,
                 products: docs
             })
         })
@@ -101,10 +102,21 @@ router.patch('/', (req, res) => {
 });
 
 // 상품을 삭제함
-router.delete('/', (req, res) => {
-    res.json({
-        msg : "상품을 삭제함"
-    });
+router.delete('/:productID', (req, res) => {
+    const id = req.params.productID;
+    
+    productModel
+        .findByIdAndRemove(id)
+        .then(result => {
+            res.json({
+                msg: "deleted product"
+            });
+        })
+        .catch(err => {
+            res.json({
+                error: err
+            });
+        });
 });
 
 
