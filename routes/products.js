@@ -7,7 +7,7 @@ const productModel = require('../models/product');
 
 
 
-// 상품 불러오는 API
+// 전체상품 불러오는 API
 router.get('/', (req, res) => {
 
 
@@ -32,6 +32,25 @@ router.get('/', (req, res) => {
 });
 
 
+// 상세상품을 불러오는 API
+router.get('/:productID', (req, res) => {
+    const id = req.params.productID
+
+    productModel
+        .findById(id)
+        .exec()
+        .then(doc => {
+            res.json({
+                productInfo: doc
+            });
+        })
+        .catch(err => {
+            res.json({
+                error : err
+            });
+        });
+
+});
 
 
 
