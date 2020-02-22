@@ -94,12 +94,36 @@ router.post('/', (req, res) => {
 });
 
 
+
+
 // 상품을 수정함
-router.patch('/', (req, res) => {
-    res.json({
-        msg : "상품을 수정함"
-    });
+router.patch('/:productID', (req, res) => {
+
+    const id = req.params.productID;
+        
+    const updateOps = {};   
+    for(const ops of req.body) {
+        updateOps[ops.propName]= ops.value;
+    }
+
+    productModel
+        .update({_id: id}, {$set: updateOps})
+        .then(result => {
+            res.json({
+                productInfo: result
+            });
+        })
+        .catch(err => {
+            res.json({
+                msg : err
+            });
+        });
 });
+
+
+
+
+
 
 // 상품을 삭제함
 router.delete('/:productID', (req, res) => {
