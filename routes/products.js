@@ -4,12 +4,38 @@ const router = express.Router();
 // ..은 완전히 다른폴더 불러올시 사용
 const productModel = require('../models/product');
 
+
+
+
 // 상품 불러오는 API
 router.get('/', (req, res) => {
-    res.json({
-        msg : "상품을 불러왔다"
-    });
+
+
+    productModel
+        .find()
+        .exec()
+        .then(docs => {
+            res.json({
+                products: docs
+            })
+        })
+        .catch(err => {
+            res.json({
+                error : err
+            });
+        });
+
+
+    // res.json({
+    //     msg : "상품을 불러왔다"
+    // });
 });
+
+
+
+
+
+
 // 상품 생성하는 API
 router.post('/', (req, res) => {
 
