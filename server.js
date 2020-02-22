@@ -10,7 +10,7 @@ const userRoutes = require('./routes/user');
 
 
 
-mongoose.connect("mongodb://joke716:k9915402@ds141294.mlab.com:41294/node-rest-shop", { useNewUrlParser: true , useUnifiedTopology:true})
+mongoose.connect("mongodb+srv://cheese:0326@cluster0-eelvp.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true , useUnifiedTopology:true})
     .then(() => console.log("mongoDB conneted"))
     .catch(err => console.log(err.message));
 
