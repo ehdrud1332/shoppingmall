@@ -17,6 +17,7 @@ router.get('/', (req, res) => {
 // http://localhost:2020/user/signup
 router.post('/signup', (req, res) => {
 
+    // 데이터베이스에 email 유무체크 - 패스워드암호화 - 데이터베이스 저장 - 화면에출력
     userModel
         .findOne({email: req.body.email})
         .then(user => {
@@ -68,7 +69,38 @@ router.post('/signup', (req, res) => {
 // 로그인
 // http://localhost:2020/uesr/login
 router.post('/login', (req, res) => {
-    
+    // 데이터베이스에 이메일이 있는지 체크 - 패스워드가 맞는지 매칭 - 메시지를 출력
+    userModel
+        .findOne({email: req.body.email})
+        .then(user => {
+            console.log(user);
+            // 데이터베이스에 이메일이 있는지 체크
+            // 데이터베이스에 유저가 없다면 아래와 같은 메세지를 출격한다
+            if(!user) {
+                return res.json({
+                    msg: "이메일이 없음"
+                })
+            // 패스워드가ㅣ 맞는지 매칭
+            // compare 함수를 사용해서 데이터베이스의 패스워드와 사용자의 패스워드의 일치여부 확인
+            } else {
+                bcrypt.compare(req.body.password, user.password, (err, result) => {
+                    if(err) {
+                        return res.json({
+                            msg: "패스워드가 틀림"
+                        });
+                    } else {
+                        res.json({
+                            msg: "로그인 성공"
+                        });
+                    }
+                })
+            }
+        })
+        .catch(err => {
+            res.json({
+                error: err
+            });
+        });
 });
 
 
