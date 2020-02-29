@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 const userModel = require('../models/user');
@@ -69,13 +70,10 @@ router.post('/signup', (req, res) => {
 // 로그인
 // http://localhost:2020/uesr/login
 router.post('/login', (req, res) => {
-    // 데이터베이스에 이메일이 있는지 체크 - 패스워드가 맞는지 매칭 - 메시지를 출력
+    // 데이터베이스에 이메일이 있는지 체크 - 패스워드가 맞는지 매칭 - jwt을 출력
     userModel
         .findOne({email: req.body.email})
         .then(user => {
-            console.log(user);
-            // 데이터베이스에 이메일이 있는지 체크
-            // 데이터베이스에 유저가 없다면 아래와 같은 메세지를 출격한다
             if(!user) {
                 return res.json({
                     msg: "이메일이 없음"
@@ -89,8 +87,15 @@ router.post('/login', (req, res) => {
                             msg: "패스워드가 틀림"
                         });
                     } else {
+
+                        const token = jwt.sign({
+                            email: user.email,
+                            userId: user._id
+                        }, "secret", { expiresIn: "1d"});
+
                         res.json({
-                            msg: "로그인 성공"
+                            msg: "로그인 성공",
+                            tokenInfo: token
                         });
                     }
                 })
