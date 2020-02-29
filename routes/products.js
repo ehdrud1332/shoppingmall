@@ -4,7 +4,7 @@ const router = express.Router();
 // ..은 완전히 다른폴더 불러올시 사용
 const productModel = require('../models/product');
 
-
+const checkAuth = require('../utils/check-auth');
 
 
 // 전체상품 불러오는 API
@@ -54,7 +54,7 @@ router.get('/', (req, res) => {
 
 
 // 상세상품을 불러오는 API
-router.get('/:productID', (req, res) => {
+router.get('/:productID', checkAuth, (req, res) => {
     const id = req.params.productID
 
     productModel
@@ -94,7 +94,7 @@ router.get('/:productID', (req, res) => {
 
 
 // 상품 생성하는 API
-router.post('/', (req, res) => {
+router.post('/', checkAuth, (req, res) => {
 
 
     const product = new productModel ({
@@ -142,7 +142,7 @@ router.post('/', (req, res) => {
 
 
 // 상품을 수정함
-router.patch('/:productID', (req, res) => {
+router.patch('/:productID', checkAuth, (req, res) => {
 
     const id = req.params.productID;
         
@@ -176,7 +176,7 @@ router.patch('/:productID', (req, res) => {
 
 
 // 상품을 삭제함
-router.delete('/:productID', (req, res) => {
+router.delete('/:productID', checkAuth, (req, res) => {
     const id = req.params.productID;
     
     productModel

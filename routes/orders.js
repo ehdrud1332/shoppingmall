@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const orderModel = require("../models/order");
 const productModel = require("../models/product");
+const checkAuth = require("../utils/check-auth");
 
 // 장바구니를 생성하는 API
-router.post('/', (req, res) => {
+router.post('/', checkAuth, (req, res) => {
 
     productModel 
         .findById(req.body.product)
@@ -18,7 +19,7 @@ router.post('/', (req, res) => {
                     product: req.body.product,
                     qty : req.body.qty
                 });
-            return order.save
+                return order.save();
             }
         })
         .then(result => {
@@ -30,7 +31,7 @@ router.post('/', (req, res) => {
                     id: result._id,
                     request: {
                         type: "Get",
-                        url: "http://localhost:1997?orde/r"
+                        url: "http://localhost:2020/order/"
                     }
                 }
             });
@@ -46,7 +47,7 @@ router.post('/', (req, res) => {
 
 
 // 전체 장바구니를 불러오는 API
-router.get('/', (req, res) => {
+router.get('/', checkAuth, (req, res) => {
 
     orderModel
     .find()
@@ -72,7 +73,7 @@ router.get('/', (req, res) => {
     });
 });
 // detail order API
-router.get('/:orderID', (req, res) => {
+router.get('/:orderID', checkAuth, (req, res) => {
     const id = req.params.orderID;
 
     orderModel
@@ -94,7 +95,7 @@ router.get('/:orderID', (req, res) => {
 
 
 // 장바구니를 수정하는 API
-router.patch('/:orderID', (req, res) => {
+router.patch('/:orderID', checkAuth, (req, res) => {
     const id = req.params.orderID
 
     const updateOps = {};
@@ -123,7 +124,7 @@ router.patch('/:orderID', (req, res) => {
 
 
 // 장바구니를 삭제 API
-router.delete('/', (req, res) => {
+router.delete('/', checkAuth, (req, res) => {
 
     orderModel
         .deleteMany()
@@ -141,7 +142,7 @@ router.delete('/', (req, res) => {
 
 
 //특정 장바구니를 삭제하는 API
-router.delete('/:orderID', (req, res) => {
+router.delete('/:orderID', checkAuth, (req, res) => {
     const id = req.params.orderID;
 
     orderModel

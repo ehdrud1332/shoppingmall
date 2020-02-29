@@ -95,7 +95,7 @@ router.post('/login', (req, res) => {
 
                         res.json({
                             msg: "로그인 성공",
-                            tokenInfo: token
+                            tokenInfo: "bearer " + token
                         });
                     }
                 })
@@ -107,8 +107,12 @@ router.post('/login', (req, res) => {
             });
         });
 });
-
-
+// Test 하는 방법 
+// 제품등록하는방법 Test : name,price - token 헤더에 삽입 - 토큰을 발행하기 위해 로그인 필요 - 헤더에 토큰넣기
+// 제품상세정보를 불러오는 방법 : 제품아이디(url+ 제품아이디 추가) - token 헤더에 삽입 - 토큰을 발행하기 위해 로그인필요 - 헤더에 토큰 넣기
+// order 등록하는 방법 : productId가져오기 - product,qty 입력 - token 헤어에 삽입 - 토큰을 발행하기 위해 로그인필요 - 헤더에 토큰넣기
+// 수정하는 방법 :
+// 삭제하는 방법 :
 
 
 
