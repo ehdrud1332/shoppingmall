@@ -1,6 +1,5 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+
 const router = express.Router();
 
 const {
@@ -24,7 +23,7 @@ router.post('/signup', user_signup);
 
 // 로그인
 // http://localhost:2020/uesr/login
-router.post('/login', user_loginx);
+router.post('/login', user_login);
 // Test 하는 방법 
 // 제품등록하는방법 Test : name,price - token 헤더에 삽입 - 토큰을 발행하기 위해 로그인 필요 - 헤더에 토큰넣기
 // 제품상세정보를 불러오는 방법 : 제품아이디(url+ 제품아이디 추가) - token 헤더에 삽입 - 토큰을 발행하기 위해 로그인필요 - 헤더에 토큰 넣기

@@ -8,9 +8,14 @@ const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
 const userRoutes = require('./routes/user');
 
+const db = "mongodb+srv://cheese:0326@cluster0-eelvp.mongodb.net/test?retryWrites=true&w=majority"
 
-
-mongoose.connect("mongodb+srv://cheese:0326@cluster0-eelvp.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true , useUnifiedTopology:true})
+mongoose.connect(db, 
+{ 
+    useNewUrlParser: true, 
+    useUnifiedTopology:true, 
+    useCreateIndex: true
+})
     .then(() => console.log("mongoDB conneted"))
     .catch(err => console.log(err.message));
 
