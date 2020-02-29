@@ -1,6 +1,9 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router();
+
 const userModel = require('../models/user');
+
 
 // 유저를 불러오는 API(관리자용)
 router.get('/', (req, res) => {
@@ -14,24 +17,38 @@ router.get('/', (req, res) => {
 // http://localhost:2020/user/signup
 router.post('/signup', (req, res) => {
 
-    const user = new userModel({
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password
-    });
-    user
-        .save()
-        .then(user => {
-            res.json({
-                msg: "resigisted user",
-                userInfo: user
-            })
-        })
-        .catch(err => {
-            res.json({
-                error : err
+    // password 암호화
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+        
+        if(err) {
+            // 패스워드 암호화 실패시 나타남
+            return res.json({
+                error: err
             });
-        });
+        } else {
+            // 패스워드 암호와 성공시 처리 내용
+            const user = new userModel({
+                username: req.body.username,
+                email: req.body.email,
+                password: hash
+            });
+            user
+                .save()
+                .then(user => {
+                    res.json({
+                        msg: "resigisted user",
+                        userInfo: user
+                    })
+                })
+                .catch(err => {
+                    res.json({
+                        error : err
+                    });
+                });
+        }
+    })
+
+
 
 
 });
