@@ -1,167 +1,38 @@
 const express = require('express');
 const router = express.Router();
-const orderModel = require("../models/order");
-const productModel = require("../models/product");
 const checkAuth = require("../utils/check-auth");
 
+const {
+    orders_get_all,
+    orders_create_order,
+    orders_get_order,
+    orders_update_order,
+    orders_delete_all,
+    orders_delete_order
+} = require('../controller/order');
+
+
+
 // 장바구니를 생성하는 API
-router.post('/', checkAuth, (req, res) => {
-
-    productModel 
-        .findById(req.body.product)
-        .then(product => {
-            if(!product){
-                return res.json({
-                    msg : "product not Found"
-                });
-            } else {
-                const order = new orderModel({
-                    product: req.body.product,
-                    qty : req.body.qty
-                });
-                return order.save();
-            }
-        })
-        .then(result => {
-            res.json({
-                msg : "created order",
-                createdOrder: {
-                    product: result.product,
-                    qty: result.qty,
-                    id: result._id,
-                    request: {
-                        type: "Get",
-                        url: "http://localhost:2020/order/"
-                    }
-                }
-            });
-        })
-        .catch(err => {
-            res.json({
-                error : err
-            });
-        })
-    
-   
-});
-
+router.post('/', checkAuth, orders_create_order);
 
 // 전체 장바구니를 불러오는 API
-router.get('/', checkAuth, (req, res) => {
+router.get('/', checkAuth, orders_get_all);
 
-    orderModel
-    .find()
-    .exec()
-    .then(docs => {
-
-        res.json({
-            count: docs.length,
-            orderlist : docs.map(doc => {
-                return{
-                    id: doc._id,
-                    product: doc.product,
-                    qty: doc.qty
-                
-                }
-            })
-        })
-    })
-    .catch(err => {
-        res.json({
-            error: err
-        })
-    });
-});
 // detail order API
-router.get('/:orderID', checkAuth, (req, res) => {
-    const id = req.params.orderID;
-
-    orderModel
-        .findById(id)
-        .exec()
-        .then(doc => {
-            res.json({
-                product: doc.product,
-                qty: doc.qty
-            });
-        })
-        .catch(err => {
-            res.json({
-                error: err
-            })
-        });
-})
-
+router.get('/:orderID', checkAuth, orders_get_order);
 
 
 // 장바구니를 수정하는 API
-router.patch('/:orderID', checkAuth, (req, res) => {
-    const id = req.params.orderID
-
-    const updateOps = {};
-    for(const ops of req.body){
-        updateOps[ops.propName] = ops.value;
-    }
-
-    orderModel
-        .update({_id: id}, {$set: updateOps})
-        .then(result => {
-            res.json({
-                msg : "updated massgae",
-                request: {
-                    type: "GET",
-                    url: "http://localhost:1997/order/" + id
-                }
-            })
-        })
-        .catch(err => {
-            res.json({
-                error: err
-            })
-        })
-
-    });        
+router.patch('/:orderID', checkAuth, orders_update_order);        
 
 
 // 장바구니를 삭제 API
-router.delete('/', checkAuth, (req, res) => {
-
-    orderModel
-        .deleteMany()
-        .then(() => {
-            res.json({
-                msg : "deleted order"
-            })
-        })
-        .catch(err => {
-            res.json({
-                error: err
-            })
-        });
-});
+router.delete('/', checkAuth, orders_delete_all);
 
 
 //특정 장바구니를 삭제하는 API
-router.delete('/:orderID', checkAuth, (req, res) => {
-    const id = req.params.orderID;
-
-    orderModel
-        .findByIdAndDelete(id)
-        .then(() => {
-            res.json({
-                msg : "deleted order",
-                request: {
-                    type: "GET",
-                    url: "http://localhost:1997/order"
-                }
-            })
-        })
-        .catch(err => {
-            res.json({
-                error: err
-            })
-        })
-});
+router.delete('/:orderID', checkAuth, orders_delete_order);
 
 
 module.exports = router;
