@@ -13,9 +13,27 @@ router.get('/', (req, res) => {
 // 회원가입
 // http://localhost:2020/user/signup
 router.post('/signup', (req, res) => {
-    res.json({
-        msg : "유저를 생성함"
+
+    const user = new userModel({
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password
     });
+    user
+        .save()
+        .then(user => {
+            res.json({
+                msg: "resigisted user",
+                userInfo: user
+            })
+        })
+        .catch(err => {
+            res.json({
+                error : err
+            });
+        });
+
+
 });
 
 // 로그인
