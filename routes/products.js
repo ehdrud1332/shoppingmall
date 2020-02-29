@@ -62,7 +62,7 @@ router.get('/:productID', (req, res) => {
         .exec()
         .then(doc => {
             if(doc){
-                res.json({
+                return res.json({
                     productInfo: {
                         name : doc.name,
                         price: doc.price,
@@ -76,7 +76,7 @@ router.get('/:productID', (req, res) => {
               
 
             } else{
-                return res.json({
+                 res.json({
                     msg : "productid is not found"
                 });
             }
