@@ -3,6 +3,25 @@ const jwt = require('jsonwebtoken');
 
 const userModel = require('../models/user');
 
+// 전체 유저를 불러오는 API
+exports.user_get = (req, res) => {
+
+    userModel
+    .find()
+    .exec()
+    .then(result => {
+        res.json({
+            count: result.length,
+            userlist: result
+        });
+    })
+    .catch(err => {
+        res.json({
+            error: err
+        })
+    })
+};
+
 // 회원가입하는 API
 exports.user_signup = (req, res) => {
 
@@ -94,3 +113,25 @@ exports.user_login = (req, res) => {
             });
         });
 };
+
+exports.user_update_user = (req, res) => {
+    const id = req.params.userID; 
+ 
+    const updateOps = {};
+    for(const ops of req.body){
+        updateOps[ops.propName] = ops.value;
+    }
+ 
+    userModel
+     .update({_id: id}, {$set: updateOps})
+     .then(() => {
+         res.json({
+             msg: "updated user profile"
+         })
+     })
+     .catch(err => {
+         res.json({
+             error: err
+         });
+     });
+ };

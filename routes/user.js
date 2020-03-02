@@ -4,18 +4,15 @@ const router = express.Router();
 
 const {
     user_signup,
-    user_login
+    user_login,
+    user_get,
+    user_update_user
 } = require('../controller/user');
 const userModel = require('../models/user');
 
 
 // 유저를 불러오는 API(관리자용)
-router.get('/', (req, res) => {
-    res.json({
-        msg : "유저를 불러옴"
-    });
-});
-
+router.get('/', user_get);
 
 // 회원가입
 // http://localhost:2020/user/signup
@@ -31,14 +28,8 @@ router.post('/login', user_login);
 // 수정하는 방법 :
 // 삭제하는 방법 :
 
-
-
 //유저 프로필 업데이트
-router.patch('/', (req, res) => {
-    res.json({
-        msg : "유저를 수정함"
-    });
-});
+router.patch('/:userID', user_update_user);
 
 //회원탈퇴
 router.delete('/', (req, res) => {

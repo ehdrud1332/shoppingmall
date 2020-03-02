@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 
-// ..은 완전히 다른폴더 불러올시 사용
-const productModel = require('../models/product');
-
 const checkAuth = require('../utils/check-auth');
 
 const {
