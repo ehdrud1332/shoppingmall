@@ -97,7 +97,7 @@ exports.user_login = (req, res) => {
                         const token = jwt.sign({
                             email: user.email,
                             userId: user._id
-                        }, "secret", { expiresIn: "1d"});
+                        }, process.env.SCRETKEY, { expiresIn: "1d"});
 
                         res.json({
                             msg: "로그인 성공",
@@ -135,3 +135,24 @@ exports.user_update_user = (req, res) => {
          });
      });
  };
+ 
+ exports.user_deleted_user = (req, res) => {
+    const id = req.params.userID;
+
+    userModel
+    .findByIdAndDelete(id)
+    .then(() => {
+        res.json({
+            msg: "deleted user",
+            request: {
+                type: "GET",
+                url: "http://localhost:2020/user"
+            }
+        });
+    })
+    .catch(err => {
+        res.json({
+            error: err
+        });
+    })
+};

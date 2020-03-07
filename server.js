@@ -3,19 +3,20 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const mongoose = require("mongoose");
+const dotEnv = require('dotenv');
+dotEnv.config();
 
 const productsRoutes = require('./routes/products');
 const ordersRoutes = require('./routes/orders');
 const userRoutes = require('./routes/user');
 
-const db = "mongodb+srv://cheese:0326@cluster0-eelvp.mongodb.net/test?retryWrites=true&w=majority"
 
-mongoose.connect(db, 
-{ 
-    useNewUrlParser: true, 
-    useUnifiedTopology:true, 
-    useCreateIndex: true
-})
+mongoose.connect(process.env.MONGO_URI, 
+    { 
+        useNewUrlParser: true, 
+        useUnifiedTopology:true, 
+        useCreateIndex: true
+    })
     .then(() => console.log("mongoDB conneted"))
     .catch(err => console.log(err.message));
 
@@ -34,6 +35,6 @@ app.use('/user', userRoutes);
 
 
 
-const port = 2020;
+const port = process.env.PORT;
 
 app.listen(port, () => console.log("server started"));

@@ -45,40 +45,6 @@ exports.products_get_all = (req, res) => {
     // });
 };
 
-
-
-
-// 상품을 생성힘
-exports.products_create_product = (req, res) => {
-
-    const product = new productModel ({
-        name : req.body.name,
-        price : req.body.price
-    });
-    product
-        .save()
-        .then(result => {
-            res.json({
-                message: "created product",
-                createdproduct : {
-                    name: result.name,
-                    price:result.price,
-                    id: result._id,
-                    request: {
-                        type: "GET",
-                        url: "http://localhost:2020/product/"
-                    }
-                }
-            })
-        })
-        .catch(err => {
-            res.json({
-                error : err
-            })
-        });
-};
-
-
 //특정 상품을 불러오는 API
 exports.products_get_product = (req, res) => {
     const id = req.params.productID;
@@ -114,6 +80,36 @@ exports.products_get_product = (req, res) => {
             });
         });
 
+};
+
+// 상품을 생성힘
+exports.products_create_product = (req, res) => {
+
+    const product = new productModel ({
+        name : req.body.name,
+        price : req.body.price
+    });
+    product
+        .save()
+        .then(result => {
+            res.json({
+                message: "created product",
+                createdproduct : {
+                    name: result.name,
+                    price:result.price,
+                    id: result._id,
+                    request: {
+                        type: "GET",
+                        url: "http://localhost:2020/product/"
+                    }
+                }
+            })
+        })
+        .catch(err => {
+            res.json({
+                error : err
+            })
+        });
 };
 
 // 상품을 수정 하는 API
@@ -167,4 +163,12 @@ exports.products_delete_product = (req, res) => {
                 error: err
             });
         });
+};
+
+// 상품을 전체 삭제
+exports.product_delete_all = (req, res) => {
+    productModel
+        .deleteMany()
+        .then()
+        .catch()
 };

@@ -6,7 +6,8 @@ const {
     user_signup,
     user_login,
     user_get,
-    user_update_user
+    user_update_user,
+    user_deleted_user
 } = require('../controller/user');
 const userModel = require('../models/user');
 
@@ -32,11 +33,6 @@ router.post('/login', user_login);
 router.patch('/:userID', user_update_user);
 
 //회원탈퇴
-router.delete('/', (req, res) => {
-    res.json({
-        msg : "유저를 삭제함"
-    
-    });
-});
+router.delete('/:userID', user_deleted_user);
 
 module.exports = router;

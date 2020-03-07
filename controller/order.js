@@ -1,5 +1,7 @@
 const orderModel = require('../models/order');
 const productModel = require('../models/product');
+
+
 // 전체 order를 상품을 불러오는 API
 exports.orders_get_all = (req, res) => {
 
@@ -25,6 +27,26 @@ exports.orders_get_all = (req, res) => {
             error: err
         })
     });
+};
+
+// 특정 장바구니를 불러오는 API
+exports.orders_get_order = (req, res) => {
+    const id = req.params.orderID;
+
+    orderModel
+        .findById(id)
+        .exec()
+        .then(doc => {
+            res.json({
+                product: doc.product,
+                qty: doc.qty
+            });
+        })
+        .catch(err => {
+            res.json({
+                error: err
+            })
+        });
 };
 
 // order를 생성하는 API
@@ -68,26 +90,6 @@ exports.orders_create_order = (req, res) => {
    
 };
 
-// 특정 장바구니를 불러오는 API
-exports.orders_get_order = (req, res) => {
-    const id = req.params.orderID;
-
-    orderModel
-        .findById(id)
-        .exec()
-        .then(doc => {
-            res.json({
-                product: doc.product,
-                qty: doc.qty
-            });
-        })
-        .catch(err => {
-            res.json({
-                error: err
-            })
-        });
-};
-
 // 상품을 업데이트 하는 API
 exports.orders_update_order = (req, res) => {
     const id = req.params.orderID
@@ -104,7 +106,7 @@ exports.orders_update_order = (req, res) => {
                 msg : "updated massgae",
                 request: {
                     type: "GET",
-                    url: "http://localhost:1997/order/" + id
+                    url: "http://localhost:2020/order/" + id
                 }
             })
         })
